@@ -4,14 +4,15 @@ from werkzeug.utils import redirect
 
 
 def buildQR(text):
-    # пример данных
-    data = text
     # имя конечного файла
     filename = "templates/site.png"
     # генерируем qr-код
-    img = qrcode.make(data)
-    # сохраняем img в файл
-    img.save(filename)
+    if text != 'site.png':
+        img = qrcode.make(text)
+        # сохраняем img в файл
+        img.save(filename)
+
+    return
 
 
 app = Flask(__name__)
@@ -29,6 +30,7 @@ def home():
 @app.route("/<text>")
 def QRtext(text):
     buildQR(text)
+    # print(text)
     return render_template("out.html")
 
 
